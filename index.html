@@ -269,7 +269,14 @@ color: var(--muted);
 margin-top: 8px;
 min-height: 1em;
 }
-</style></head><body><header><h1>Almanac &amp; Pagan Calendar</h1><div class="small" id="updated">Not yet updated for a region.</div></header><main><aside><div class="panel"><h2>Region</h2><label for="regionName">Name</label><input id="regionName" placeholder="e.g. Central Texas" /><div class="row"><div><label for="lat">Latitude</label
+</style></head><body><header><h1>Almanac &amp; Pagan Calendar</h1><div class="small" id="updated">Not yet updated for a region.</div></header><main><aside><div class="panel"><h2>Region</h2><label for="regionName">Name</label><input id="regionName" placeholder="e.g. Central Texas" /><label for="zip">ZIP code (US)</label><div class="row"><div><input
+id="zip"
+inputmode="numeric"
+maxlength="5"
+placeholder="37387"
+/></div><div><button id="zipLookup" class="secondary" type="button">
+Look up ZIP
+</button></div></div><div class="small" id="zipInfo"></div><div class="row"><div><label for="lat">Latitude</label
 ><input
 id="lat"
 type="number"
@@ -1297,6 +1304,11 @@ statusEl.textContent = msg;
 function fillForm() {
 const r = state.region || {};
 $("regionName").value = r.name || "";
+$("zip").value = r.postal || "";
+$("zip").dataset.place = r.place || "";
+$("zipInfo").textContent = r.place
+? `${r.place} (ZIP ${r.postal})`
+: "";
 $("lat").value = r.lat ?? "";
 $("lon").value = r.lon ?? "";
 $("tz").value =
@@ -1840,8 +1852,12 @@ if (!isFinite(lat) || lat < -90 || lat > 90)
 throw new Error("Enter a latitude between -90 and 90.");
 if (!isFinite(lon) || lon < -180 || lon > 180)
 throw new Error("Enter a longitude between -180 and 180.");
+const zip = $("zip").value.trim();
 return {
 name: $("regionName").value.trim(),
+country: zip ? "US" : null,
+postal: zip || null,
+place: $("zip").dataset.place || null,
 lat,
 lon,
 tz:
@@ -2025,6 +2041,37 @@ cfg.lastSyncedAt
 : "Not synced yet.",
 );
 }
+// ---------- ZIP lookup (US table, offline after first load) ----------
+let zipTable = null;
+async function lookupZip() {
+const zip = $("zip").value.trim();
+const info = $("zipInfo");
+if (!/^\d{5}$/.test(zip))
+throw new Error("Enter a 5-digit US ZIP code.");
+if (!zipTable) {
+const res = await fetch("us-zips.json");
+if (!res.ok)
+throw new Error("ZIP table not available offline yet.");
+zipTable = (await res.json()).zips;
+}
+const hit = zipTable[zip];
+if (!hit)
+throw new Error(`ZIP ${zip} was not found in the US table.`);
+const [lat, lon, city, st] = hit;
+$("lat").value = lat;
+$("lon").value = lon;
+const place = `${city}, ${st}`;
+$("zip").dataset.place = place;
+if (!$("regionName").value.trim()) $("regionName").value = place;
+info.textContent = `${place} (ZIP ${zip}). Check the time zone and USDA zone for your exact spot.`;
+}
+$("zipLookup").addEventListener("click", async () => {
+try {
+await lookupZip();
+} catch (e) {
+setStatus(e.message);
+}
+});
 $("saveRegion").addEventListener("click", async () => {
 try {
 state.region = readRegionForm();
