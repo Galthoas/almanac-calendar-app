@@ -2051,7 +2051,9 @@ throw new Error("Enter a 5-digit US ZIP code.");
 if (!zipTable) {
 const res = await fetch("us-zips.json");
 if (!res.ok)
-throw new Error("ZIP table not available offline yet.");
+throw new Error(
+`ZIP table could not be loaded (HTTP ${res.status}). Check that us-zips.json is on the site.`,
+);
 zipTable = (await res.json()).zips;
 }
 const hit = zipTable[zip];
