@@ -2098,6 +2098,44 @@ $("next").addEventListener("click", () => {
 view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
 renderCalendar();
 });
+// ---------- Keyboard shortcuts (desktop) ----------
+// Enter in the ZIP box looks it up; Enter in other region fields saves.
+// Ctrl/Cmd+S saves the region. Arrow keys move the calendar, T goes to this month,
+// R refreshes weather. Escape leaves the field you are typing in.
+const FORM_FIELDS = ["regionName", "zip", "lat", "lon", "tz"];
+FORM_FIELDS.forEach((id) => {
+$(id).addEventListener("keydown", (e) => {
+if (e.key === "Enter") {
+e.preventDefault();
+(id === "zip" ? $("zipLookup") : $("saveRegion")).click();
+} else if (e.key === "Escape") {
+e.target.blur();
+}
+});
+});
+document.addEventListener("keydown", (e) => {
+const typing = /^(INPUT|SELECT|TEXTAREA)$/.test(
+document.activeElement?.tagName || "",
+);
+if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+e.preventDefault();
+$("saveRegion").click();
+return;
+}
+if (typing || e.ctrlKey || e.metaKey || e.altKey) return;
+if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+e.preventDefault();
+const step = e.key === "ArrowLeft" ? -1 : 1;
+view = new Date(view.getFullYear(), view.getMonth() + step, 1);
+renderCalendar();
+} else if (e.key.toLowerCase() === "t") {
+const now = new Date();
+view = new Date(now.getFullYear(), now.getMonth(), 1);
+renderCalendar();
+} else if (e.key.toLowerCase() === "r") {
+$("updateWeather").click();
+}
+});
 $("exportData").addEventListener("click", () => {
 const blob = new Blob([JSON.stringify(state, null, 2)], {
 type: "application/json",
