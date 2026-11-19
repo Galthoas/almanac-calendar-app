@@ -1,0 +1,221 @@
+{
+  "zones": [
+    {
+      "zone": "1",
+      "min_f": -60,
+      "max_f": -50
+    },
+    {
+      "zone": "2",
+      "min_f": -50,
+      "max_f": -40
+    },
+    {
+      "zone": "3",
+      "min_f": -40,
+      "max_f": -30
+    },
+    {
+      "zone": "4",
+      "min_f": -30,
+      "max_f": -20
+    },
+    {
+      "zone": "5",
+      "min_f": -20,
+      "max_f": -10
+    },
+    {
+      "zone": "6",
+      "min_f": -10,
+      "max_f": 0
+    },
+    {
+      "zone": "7",
+      "min_f": 0,
+      "max_f": 10
+    },
+    {
+      "zone": "8",
+      "min_f": 10,
+      "max_f": 20
+    },
+    {
+      "zone": "9",
+      "min_f": 20,
+      "max_f": 30
+    },
+    {
+      "zone": "10",
+      "min_f": 30,
+      "max_f": 40
+    },
+    {
+      "zone": "11",
+      "min_f": 40,
+      "max_f": 50
+    },
+    {
+      "zone": "12",
+      "min_f": 50,
+      "max_f": 60
+    },
+    {
+      "zone": "13",
+      "min_f": 60,
+      "max_f": 70
+    }
+  ],
+  "zone_note": "USDA Plant Hardiness Zone Map (2023 edition). Each zone covers a 10 F band of average annual extreme minimum winter temperature; a and b sub-zones split each band in half. Zones describe winter cold only. Frost dates vary within a zone, so each garden pack stores its own frost data.",
+  "packs": [
+    {
+      "id": "tn-tracy-city",
+      "name": "Tracy City, TN (Zone 7a)",
+      "zone": "7a",
+      "zone_note": "Tracy City sits on the Cumberland Plateau at higher elevation, and the surrounding valleys are Zone 7b. Confirm the zone for your exact ZIP at planthardiness.ars.usda.gov.",
+      "frost": {
+        "base_source": "NOAA 1991-2020 normals, Soddy-Daisy-Mowbray Mtn station (1,699 ft), 30% probability",
+        "base_last_spring_frost": "04-15",
+        "base_first_fall_frost": "10-22",
+        "elevation_shift_days": 10,
+        "elevation_note": "Higher ground usually means a later last spring frost and an earlier first fall frost. The shift is editable. Set it to 0 to use the station dates as they are."
+      },
+      "extension": {
+        "name": "University of Tennessee Extension",
+        "note": "Check the UT Extension county office for current planting calendars and local wild-food guidance."
+      },
+      "planting": [
+        {
+          "crop": "Peas",
+          "from_last_frost_days": [
+            -28,
+            -14
+          ],
+          "harvest_days": 60,
+          "note": "Cool-season. Sow before the last frost."
+        },
+        {
+          "crop": "Spinach and lettuce",
+          "from_last_frost_days": [
+            -28,
+            -7
+          ],
+          "harvest_days": 45,
+          "note": "Cool-season. Protect from hard frost."
+        },
+        {
+          "crop": "Radishes",
+          "from_last_frost_days": [
+            -21,
+            0
+          ],
+          "harvest_days": 30,
+          "note": "Cool-season. Quick crop."
+        },
+        {
+          "crop": "Onion sets",
+          "from_last_frost_days": [
+            -28,
+            -7
+          ],
+          "harvest_days": 100,
+          "note": "Plant sets once the soil can be worked."
+        },
+        {
+          "crop": "Potatoes",
+          "from_last_frost_days": [
+            -14,
+            0
+          ],
+          "harvest_days": 90,
+          "note": "Plant seed potatoes about two weeks before the last frost."
+        },
+        {
+          "crop": "Cabbage and broccoli (transplants)",
+          "from_last_frost_days": [
+            -21,
+            -7
+          ],
+          "harvest_days": 80,
+          "note": "Transplant before warm weather sets in."
+        },
+        {
+          "crop": "Corn, beans and squash",
+          "from_last_frost_days": [
+            7,
+            21
+          ],
+          "harvest_days": 65,
+          "note": "Warm-season. Plant after the soil warms."
+        },
+        {
+          "crop": "Tomatoes and peppers (transplants)",
+          "from_last_frost_days": [
+            14,
+            28
+          ],
+          "harvest_days": 75,
+          "note": "Warm-season. Wait for warm nights."
+        },
+        {
+          "crop": "Basil and cucumbers",
+          "from_last_frost_days": [
+            21,
+            35
+          ],
+          "harvest_days": 60,
+          "note": "Tender. Protect from any late cold snap."
+        }
+      ],
+      "planting_note": "These windows are general starting points, counted from the frost dates above, not a substitute for an extension calendar. Harvest days are typical averages.",
+      "wild_edibles": [
+        {
+          "name": "Wild garlic (ramps)",
+          "lookalike": "Lily of the valley is poisonous and can look like wild garlic.",
+          "warning": "Confirm by smell as well as leaf shape. Wild garlic smells like onion or garlic, and lily of the valley doesn't.",
+          "sources": [
+            "https://survival-kompass.de/en/dangers-wild-plants-collecting"
+          ]
+        },
+        {
+          "name": "Purslane",
+          "lookalike": "Prostrate spurge is poisonous and often grows next to purslane.",
+          "warning": "Check the leaves and stems carefully before eating.",
+          "sources": [
+            "https://extension.msstate.edu/sites/default/files/document/2026-02/P4173_web.pdf"
+          ]
+        },
+        {
+          "name": "Wild carrot (Queen Anne's lace)",
+          "lookalike": "Poison hemlock is a deadly carrot-family plant, not the hemlock tree. It can look very similar to wild carrot.",
+          "warning": "Many plants in this carrot family look alike, and some are deadly. Don't eat any of them unless you have identified it with certainty using a field guide.",
+          "sources": [
+            "https://survival-kompass.de/en/dangers-wild-plants-collecting"
+          ]
+        },
+        {
+          "name": "Blueberries and huckleberries",
+          "lookalike": "Deadly nightshade berries can look like blueberries.",
+          "warning": "Eat only berries you have identified on the bush. Don't eat berries of unknown origin.",
+          "sources": [
+            "https://www.bobvila.com/lawn-and-garden/how-to-forage-at-home"
+          ]
+        },
+        {
+          "name": "Cattail",
+          "lookalike": "Iris plants grow in similar areas and are toxic.",
+          "warning": "Identify by the brown seed heads and by the way it grows in standing water.",
+          "sources": [
+            "https://rockchasing.com/edible-plants-in-nebraska/"
+          ]
+        }
+      ],
+      "wild_edible_rules": [
+        "Before eating any wild plant, be 100 percent certain it is correctly identified. Use at least three different plant guides.",
+        "When in doubt, leave it out.",
+        "Don't forage from roadsides, sprayed fields or other areas that may have been treated with herbicides or pesticides.",
+        "Check local rules before collecting on public land or from protected plants."
+      ]
+    }
+  ]
+}
