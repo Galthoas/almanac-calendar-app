@@ -2054,14 +2054,16 @@ if (!res.ok)
 throw new Error(
 `ZIP table could not be loaded (HTTP ${res.status}). Check that us-zips.json is on the site.`,
 );
-zipTable = (await res.json()).zips;
+zipTable = await res.json();
 }
-const hit = zipTable[zip];
+const hit = zipTable.zips[zip];
 if (!hit)
 throw new Error(`ZIP ${zip} was not found in the US table.`);
-const [lat, lon, city, st] = hit;
+const [lat, lon, city, st, tzIndex] = hit;
 $("lat").value = lat;
 $("lon").value = lon;
+if (tzIndex != null && zipTable.timezones[tzIndex])
+$("tz").value = zipTable.timezones[tzIndex];
 const place = `${city}, ${st}`;
 $("zip").dataset.place = place;
 if (!$("regionName").value.trim()) $("regionName").value = place;
