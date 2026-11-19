@@ -1763,8 +1763,9 @@ Math.cos(rad(lat2)) *
 Math.sin(rad(lon2 - lon1) / 2) ** 2;
 return 2 * 6371 * Math.asin(Math.sqrt(a));
 }
-// Picks the nearest pack within its coverage radius for the saved region.
-// A pack the user chose by hand is kept; an automatic choice is replaced when the region changes.
+// Automatically picks the nearest pack for the saved region, and lists up to two
+// nearby alternatives the user can switch to. A pack chosen by hand is kept until
+// the region is saved again.
 function applyGardenSuggestion() {
 const note = $("gardenNote");
 const packs = gardenData ? gardenData.packs : [];
@@ -1773,33 +1774,63 @@ if (!r || !isFinite(r.lat) || !isFinite(r.lon) || !packs.length) {
 note.textContent = "";
 return;
 }
-let best = null;
-for (const p of packs) {
-if (!p.location) continue;
-const km = kmBetween(r.lat, r.lon, p.location.lat, p.location.lon);
-if (km <= (p.coverage_km || 150) && (!best || km < best.km))
-best = { pack: p, km };
-}
-if (state.gardenManual) {
-note.textContent = state.garden
-? "Pack chosen by hand. Saving the region matches it again."
-: "No pack selected. Saving the region matches one again.";
+const ranked = packs
+.filter((p) => p.location)
+.map((p) => ({
+pack: p,
+km: kmBetween(r.lat, r.lon, p.location.lat, p.location.lon),
+}))
+.sort((a, b) => a.km - b.km);
+const nearest = ranked[0];
+if (!nearest) {
+note.textContent = "";
 return;
 }
-if (best) {
-state.garden = best.pack.id;
+const alternatives = ranked.slice(1, 3).filter((a) => a.km <= 300);
+if (!state.gardenManual) {
+state.garden = nearest.pack.id;
 state.gardenAuto = true;
-$("garden").value = best.pack.id;
-note.textContent = `Matched to ${best.pack.location.label}, about ${Math.round(best.km)} km away. Zone ${best.pack.zone} is the pack's zone; confirm it for your ZIP.`;
-} else {
-state.garden = null;
-state.gardenAuto = false;
-$("garden").value = "";
-note.textContent =
-"No garden pack covers this area yet. Pick one by hand if you have a close match.";
+$("garden").value = nearest.pack.id;
 }
+const inRange = nearest.km <= (nearest.pack.coverage_km || 150);
+const chosen =
+ranked.find((a) => a.pack.id === state.garden) || nearest;
+const lines = [];
+if (state.gardenManual && !state.garden) {
+lines.push("No garden pack selected.");
+} else if (state.gardenManual) {
+lines.push(`Chosen by hand: ${chosen.pack.name}.`);
+} else {
+lines.push(
+`Matched to ${nearest.pack.location.label}, about ${Math.round(nearest.km)} km away.`,
+);
+}
+if (!inRange)
+lines.push(
+"This is outside the area that pack was built for, so its dates may not fit your location.",
+);
+if (alternatives.length) {
+const buttons = alternatives
+.map(
+(a) =>
+`<button type="button" class="secondary garden-alt" data-id="${esc(a.pack.id)}">${esc(a.pack.location.label)} (${Math.round(a.km)} km)</button>`,
+)
+.join(" ");
+lines.push(`Nearby options: ${buttons}`);
+}
+note.innerHTML = lines.join(" ");
 save(state);
 }
+$("gardenNote").addEventListener("click", (e) => {
+const btn = e.target.closest(".garden-alt");
+if (!btn) return;
+state.garden = btn.dataset.id;
+state.gardenManual = true;
+$("garden").value = state.garden;
+save(state);
+applyGardenSuggestion();
+renderGarden();
+});
 $("garden").addEventListener("change", (e) => {
 state.garden = e.target.value || null;
 state.gardenManual = true;
