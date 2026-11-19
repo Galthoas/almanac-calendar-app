@@ -36,6 +36,34 @@ font-style: italic;
 :root[data-style="kitchen"] h1::before {
 content: "🥄 ";
 }
+/* Heathen: iron-slate night, bone-white ink, gold and lichen-green accents */
+:root[data-style="heathen"] {
+--bg: #1b2026;
+--panel: #252c35;
+--ink: #e6dfcc;
+--muted: #9ea7b1;
+--accent: #c9a24a;
+--sabbat: #7fa58f;
+--full: #d8c48a;
+--line: #3b4550;
+--font: Georgia, "Times New Roman", serif;
+--input: #1f252c;
+--day: #2c343e;
+--on-accent: #1b2026;
+--radius: 4px;
+}
+:root[data-style="heathen"] h1 {
+font-variant: small-caps;
+letter-spacing: 0.06em;
+}
+:root[data-style="heathen"] h1::before {
+content: "ᚠ ";
+color: var(--accent);
+}
+:root[data-style="heathen"] .panel {
+border-top: 2px solid var(--accent);
+box-shadow: none;
+}
 .menu-h {
 font-size: 0.95rem;
 margin: 12px 0 4px;
@@ -1306,6 +1334,7 @@ renderAll();
 const STYLES = {
 dark: "Dark (default)",
 kitchen: "Kitchen witch",
+heathen: "Heathenry",
 };
 function currentStyle() {
 return STYLES[state.style] ? state.style : "dark";
