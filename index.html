@@ -1429,6 +1429,7 @@ const r = state.region || {};
 $("regionName").value = r.name || "";
 $("zip").value = r.postal || "";
 $("zip").dataset.place = r.place || "";
+$("zip").dataset.zone = r.zone || "";
 $("zipInfo").textContent = r.place
 ? `${r.place} (ZIP ${r.postal})`
 : "";
@@ -1913,6 +1914,7 @@ const inRange = nearest.km <= (nearest.pack.coverage_km || 150);
 const chosen =
 ranked.find((a) => a.pack.id === state.garden) || nearest;
 const lines = [];
+if (r.zone) lines.push(`USDA zone for this ZIP: ${r.zone}.`);
 if (state.gardenManual && !state.garden) {
 lines.push("No garden pack selected.");
 } else if (state.gardenManual) {
@@ -2086,6 +2088,7 @@ name: $("regionName").value.trim(),
 country: zip ? "US" : null,
 postal: zip || null,
 place: $("zip").dataset.place || null,
+zone: $("zip").dataset.zone || null,
 lat,
 lon,
 tz:
@@ -2287,7 +2290,8 @@ zipTable = await res.json();
 const hit = zipTable.zips[zip];
 if (!hit)
 throw new Error(`ZIP ${zip} was not found in the US table.`);
-const [lat, lon, city, st, tzIndex] = hit;
+const [lat, lon, city, st, tzIndex, zone] = hit;
+$("zip").dataset.zone = zone || "";
 $("lat").value = lat;
 $("lon").value = lon;
 if (tzIndex != null && zipTable.timezones[tzIndex])
@@ -2295,7 +2299,9 @@ $("tz").value = zipTable.timezones[tzIndex];
 const place = `${city}, ${st}`;
 $("zip").dataset.place = place;
 if (!$("regionName").value.trim()) $("regionName").value = place;
-info.textContent = `${place} (ZIP ${zip}). Check the time zone and USDA zone for your exact spot.`;
+info.textContent = zone
+? `${place} (ZIP ${zip}). USDA zone ${zone}.`
+: `${place} (ZIP ${zip}). No USDA zone is mapped for this ZIP yet.`;
 }
 $("zipLookup").addEventListener("click", async () => {
 try {
