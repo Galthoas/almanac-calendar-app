@@ -71,6 +71,12 @@
     {
       "id": "tn-tracy-city",
       "name": "Tracy City, TN (Zone 7a)",
+      "location": {
+        "lat": 35.2716,
+        "lon": -85.7364,
+        "label": "Tracy City, TN"
+      },
+      "coverage_km": 150,
       "zone": "7a",
       "zone_note": "Tracy City sits on the Cumberland Plateau at higher elevation, and the surrounding valleys are Zone 7b. Confirm the zone for your exact ZIP at planthardiness.ars.usda.gov.",
       "frost": {

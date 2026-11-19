@@ -288,7 +288,7 @@ id="lon"
 type="number"
 step="0.0001"
 placeholder="-97.7431"
-/></div></div><label for="tz">Time zone</label><input id="tz" placeholder="America/Chicago" /><label for="tradition">Festival tradition</label><select id="tradition"></select><div class="small" id="traditionNote" style="margin-top: 4px"></div><label for="garden">Garden pack</label><select id="garden"></select><label for="style">Look</label><select id="style"></select><button id="saveRegion">Save region &amp; update data</button><button id="updateWeather" class="secondary">
+/></div></div><label for="tz">Time zone</label><input id="tz" placeholder="America/Chicago" /><label for="tradition">Festival tradition</label><select id="tradition"></select><div class="small" id="traditionNote" style="margin-top: 4px"></div><label for="garden">Garden pack</label><select id="garden"></select><div class="small" id="gardenNote"></div><label for="style">Look</label><select id="style"></select><button id="saveRegion">Save region &amp; update data</button><button id="updateWeather" class="secondary">
 Refresh weather only
 </button><div class="status" id="status"></div></div><div class="panel" style="margin-top: 20px"><h2>Sync across devices</h2><div id="syncSetup"><p class="small">
 Keeps your region and tradition the same on your phone and
@@ -951,6 +951,12 @@ style="width: auto; margin: 0; padding: 5px 12px"
     {
       "id": "tn-tracy-city",
       "name": "Tracy City, TN (Zone 7a)",
+      "location": {
+        "lat": 35.2716,
+        "lon": -85.7364,
+        "label": "Tracy City, TN"
+      },
+      "coverage_km": 150,
       "zone": "7a",
       "zone_note": "Tracy City sits on the Cumberland Plateau at higher elevation, and the surrounding valleys are Zone 7b. Confirm the zone for your exact ZIP at planthardiness.ars.usda.gov.",
       "frost": {
@@ -1744,11 +1750,61 @@ packs
 )
 .join("");
 $("garden").value = state.garden || "";
+applyGardenSuggestion();
 renderGarden();
+}
+// Distance in km between two coordinates (haversine).
+function kmBetween(lat1, lon1, lat2, lon2) {
+const rad = (d) => (d * Math.PI) / 180;
+const a =
+Math.sin(rad(lat2 - lat1) / 2) ** 2 +
+Math.cos(rad(lat1)) *
+Math.cos(rad(lat2)) *
+Math.sin(rad(lon2 - lon1) / 2) ** 2;
+return 2 * 6371 * Math.asin(Math.sqrt(a));
+}
+// Picks the nearest pack within its coverage radius for the saved region.
+// A pack the user chose by hand is kept; an automatic choice is replaced when the region changes.
+function applyGardenSuggestion() {
+const note = $("gardenNote");
+const packs = gardenData ? gardenData.packs : [];
+const r = state.region;
+if (!r || !isFinite(r.lat) || !isFinite(r.lon) || !packs.length) {
+note.textContent = "";
+return;
+}
+let best = null;
+for (const p of packs) {
+if (!p.location) continue;
+const km = kmBetween(r.lat, r.lon, p.location.lat, p.location.lon);
+if (km <= (p.coverage_km || 150) && (!best || km < best.km))
+best = { pack: p, km };
+}
+if (state.gardenManual) {
+note.textContent = state.garden
+? "Pack chosen by hand. Saving the region matches it again."
+: "No pack selected. Saving the region matches one again.";
+return;
+}
+if (best) {
+state.garden = best.pack.id;
+state.gardenAuto = true;
+$("garden").value = best.pack.id;
+note.textContent = `Matched to ${best.pack.location.label}, about ${Math.round(best.km)} km away. Zone ${best.pack.zone} is the pack's zone; confirm it for your ZIP.`;
+} else {
+state.garden = null;
+state.gardenAuto = false;
+$("garden").value = "";
+note.textContent =
+"No garden pack covers this area yet. Pick one by hand if you have a close match.";
+}
+save(state);
 }
 $("garden").addEventListener("change", (e) => {
 state.garden = e.target.value || null;
+state.gardenManual = true;
 save(state);
+applyGardenSuggestion();
 renderGarden();
 });
 // ---------- Festival menus (kitchen look; data from menus.json) ----------
@@ -2079,6 +2135,9 @@ setStatus(e.message);
 $("saveRegion").addEventListener("click", async () => {
 try {
 state.region = readRegionForm();
+state.gardenManual = false;
+applyGardenSuggestion();
+renderGarden();
 touchSettings();
 await updateWeather();
 } catch (e) {
