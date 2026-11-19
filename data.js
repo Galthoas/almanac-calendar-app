@@ -607,6 +607,12 @@ window.ALMANAC_DATA = {"menus": {
     {
       "id": "tn-tracy-city",
       "name": "Tracy City, TN (Zone 7a)",
+      "location": {
+        "lat": 35.2716,
+        "lon": -85.7364,
+        "label": "Tracy City, TN"
+      },
+      "coverage_km": 150,
       "zone": "7a",
       "zone_note": "Tracy City sits on the Cumberland Plateau at higher elevation, and the surrounding valleys are Zone 7b. Confirm the zone for your exact ZIP at planthardiness.ars.usda.gov.",
       "frost": {
@@ -752,6 +758,119 @@ window.ALMANAC_DATA = {"menus": {
         "Don't forage from roadsides, sprayed fields or other areas that may have been treated with herbicides or pesticides.",
         "Check local rules before collecting on public land or from protected plants."
       ]
+    }
+  ]
+}, "heathen": {
+  "tradition": "Heathenry",
+  "note": "Wisdom is paraphrased from the sources named, not quoted. Recipes are original and based on foods described in Norse and Germanic sources; they are modern adaptations.",
+  "wisdom": [
+    {
+      "speaker": "Hávamál, the Sayings of the High One",
+      "era": "Old Norse poem, recorded in the 13th century",
+      "text": "Cattle die and kinsfolk die, and you will die too. Only one thing never dies: the good name a person leaves behind.",
+      "source": {
+        "title": "Bellows, The Poetic Edda (Hávamál, stanza 76)",
+        "url": "http://www.sacred-texts.com/neu/poe/poe04.htm"
+      }
+    },
+    {
+      "speaker": "Hávamál, on the threshold",
+      "era": "Old Norse poem",
+      "text": "Before you walk through a gate, look carefully around you, because you cannot know where an enemy may be waiting. Care at the door protects the whole household.",
+      "source": {
+        "title": "Bellows, The Poetic Edda (Hávamál, opening stanzas)",
+        "url": "http://www.sacred-texts.com/neu/poe/poe04.htm"
+      }
+    },
+    {
+      "speaker": "Tacitus, Germania",
+      "era": "Roman historian, c. 98 CE, writing about the Germanic peoples",
+      "text": "He describes warriors who fought alongside their chief. To survive a chief who fell in battle brought lasting shame, and the companions fought to protect him.",
+      "source": {
+        "title": "Church and Brodribb translation, Germania (chapters 13–14)",
+        "url": "http://www.sacred-texts.com/cla/tac/index.htm"
+      }
+    }
+  ],
+  "recipes": [
+    {
+      "id": "mead",
+      "name": "Honey mead",
+      "serves": "about 1 gallon",
+      "history": "Honey drinks are named throughout the Norse and Germanic sources, served at feasts and in the hall. This is a simple modern version, not a reconstruction of a specific brew.",
+      "ingredients": [
+        "1 gallon (3.8 L) water, divided",
+        "3 lb (1.4 kg) honey",
+        "1 packet wine or mead yeast",
+        "1 tsp yeast nutrient"
+      ],
+      "steps": [
+        "Warm 1 quart of the water and stir in the honey until it dissolves.",
+        "Add the rest of the water and let the mixture cool to about 75°F (24°C).",
+        "Pour into a sanitized fermenting vessel, stir in the nutrient, and add the yeast.",
+        "Fit an airlock and keep at room temperature for 3 to 6 weeks, until bubbling stops.",
+        "Siphon off the clear liquid, leaving the sediment behind, then bottle.",
+        "Store bottles upright for two weeks before drinking. Mead can be aged for months."
+      ],
+      "safety": "Fermentation produces gas, so use an airlock and never seal a fermenting batch tightly. Clean all equipment well to prevent spoilage. Serve only to adults, and drink responsibly."
+    },
+    {
+      "id": "boar-roast",
+      "name": "Slow-roasted boar or pork shoulder",
+      "serves": "6 to 8",
+      "history": "In the Prose Edda, the cook of the feast in Valhalla prepares a boar named Sæhrímnir each evening, and it is whole again the next morning. Roasted meat was the centre of a Germanic feast, and this recipe follows that tradition.",
+      "ingredients": [
+        "3 lb (1.4 kg) boneless boar or pork shoulder",
+        "1 tbsp coarse salt",
+        "1 tsp crushed juniper berries",
+        "3 cloves garlic, sliced",
+        "1 tbsp honey",
+        "1 cup (240 ml) ale or water"
+      ],
+      "steps": [
+        "Preheat the oven to 325°F (160°C).",
+        "Rub the meat with salt, juniper and garlic. Slip the garlic into small cuts in the meat.",
+        "Place in a heavy pan or roasting dish, brush with honey, and pour the ale or water around it.",
+        "Cover and roast for about 3 hours, until the meat is very tender and reaches 195°F (90°C).",
+        "Rest for 15 minutes, then slice or pull the meat and serve with the juices."
+      ],
+      "safety": "Cook pork and boar until the centre reaches at least 145°F (63°C), and use 195°F (90°C) for a shoulder that you want to pull apart. Refrigerate leftovers within two hours."
+    },
+    {
+      "id": "barley-flatbread",
+      "name": "Barley and wheat flatbread",
+      "serves": "4 flatbreads",
+      "history": "Flat breads baked on a hot stone or griddle were a common, simple bread across northern Europe, and cereals such as barley were grown in the Norse world. This is a modern recipe in that style.",
+      "ingredients": [
+        "1 cup (120 g) barley flour",
+        "1 cup (120 g) wheat flour",
+        "1/2 tsp salt",
+        "3/4 cup (180 ml) warm water"
+      ],
+      "steps": [
+        "Mix the flours and salt in a bowl.",
+        "Stir in the water until a soft dough forms, then knead for 3 minutes.",
+        "Divide into four balls, rest for 10 minutes, then roll each into a thin round.",
+        "Cook on a dry, hot pan or griddle for 2 to 3 minutes per side, until spotted brown."
+      ],
+      "safety": "Cook until the bread is fully set through. If you have a wheat or gluten allergy, do not make this recipe."
+    },
+    {
+      "id": "soured-milk",
+      "name": "Cultured milk, in the style of skyr",
+      "serves": "about 1 quart",
+      "history": "Soured and cultured milk products have long been part of the diet in Iceland and the Norse lands, kept for storage and for simple meals. This is a home version of a thick, soured milk.",
+      "ingredients": [
+        "1 quart (1 L) whole pasteurized milk",
+        "2 tbsp plain yogurt with live cultures"
+      ],
+      "steps": [
+        "Heat the milk to 180°F (82°C), then cool it to about 110°F (43°C).",
+        "Whisk in the yogurt until smooth.",
+        "Keep warm for 8 hours in an oven with only the light on, or in a cooler packed with warm water.",
+        "Chill, then strain through cheesecloth for a thicker result."
+      ],
+      "safety": "Use pasteurized milk and clean containers. Discard if it smells off or shows mould."
     }
   ]
 }};
